@@ -1,0 +1,88 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Facetted line trend chart with a bordered legend for other regions.",
+    "data": {
+      "url": "data/Reshaped_Tourist_Arrivals_Data.csv"
+    },
+    "transform": [
+      {
+        "calculate": "datum.YEAR + ' Q' + datum.QUARTER",
+        "as": "YearQuarter"
+      }
+    ],
+    "vconcat": [
+      {
+        "title": "Asia Visitors Trend",
+        "transform": [
+          {"filter": "datum.REGION == 'ASIA'"}
+        ],
+        "width": 700,
+        "height": 300,
+        "mark": "line",
+        "encoding": {
+          "x": {
+            "field": "YearQuarter",
+            "type": "ordinal",
+            "title": "Year and Quarter",
+            "axis": {"labelAngle": -45}
+          },
+          "y": {
+            "field": "TOTAL",
+            "type": "quantitative",
+            "title": "Number of Visitors (Asia)",
+            "scale": {"domain": [0, 7000000]}
+          },
+          "color": {
+            "field": "REGION",
+            "type": "nominal"
+          },
+          "tooltip": [
+            {"field": "YearQuarter", "type": "ordinal", "title": "Year and Quarter"},
+            {"field": "TOTAL", "type": "quantitative", "title": "Total Visitors"}
+          ]
+        }
+      },
+      {
+        "title": "Other Regions Visitors Trend",
+        "transform": [
+          {"filter": "datum.REGION != 'ASIA'"}
+        ],
+        "width": 700,  
+        "height": 300,
+        "mark": "line",
+        "encoding": {
+          "x": {
+            "field": "YearQuarter",
+            "type": "ordinal",
+            "title": "Year and Quarter",
+            "axis": {"labelAngle": -45}
+          },
+          "y": {
+            "field": "TOTAL",
+            "type": "quantitative",
+            "title": "Number of Visitors (Other Regions)",
+            "scale": {"domain": [0, 500000]}
+          },
+          "color": {
+            "field": "REGION",
+            "type": "nominal",
+            "title": "Region",
+            "legend": {
+              "title": "Region",
+              "orient": "right",
+              "padding": 10,
+              "cornerRadius": 5,
+              "fillColor": "#FFFFFF", 
+              "strokeColor": "#000000"
+            }
+          },
+          "tooltip": [
+            {"field": "REGION", "type": "nominal", "title": "Region"},
+            {"field": "YearQuarter", "type": "ordinal", "title": "Year and Quarter"},
+            {"field": "TOTAL", "type": "quantitative", "title": "Total Visitors"}
+          ]
+        }
+      }
+    ]
+  }
+  

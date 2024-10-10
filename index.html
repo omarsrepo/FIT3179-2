@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+    <script src="vega_lite_vis.js"></script>
+    <style>
+      /* General Reset for consistency */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Body styles */
+      body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f4f7fa;
+        color: #333;
+        text-align: center;
+        padding: 20px;
+      }
+
+      /* Main Title */
+      h1 {
+        font-size: 36px;
+        color: #3d3d3d;
+        margin-bottom: 20px;
+      }
+
+      /* Styling for the info section */
+      .info-section {
+        border: 1px solid #dedede;
+        background-color: #fff;
+        padding: 30px;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .info-section h2 {
+        font-size: 28px;
+        color: #aa332f;
+        margin-bottom: 20px;
+      }
+
+      .info-section p {
+        font-size: 16px;
+        line-height: 1.8;
+        margin-bottom: 15px;
+        color: #555;
+      }
+
+      /* Style for the content text */
+      .content-text {
+        font-size: 18px;
+        color: #444;
+        margin: 20px 0;
+      }
+
+      .content-text span {
+        font-weight: bold;
+        color: #aa332f;
+      }
+
+      /* Styling for the chloropleth visualization container */
+      .centered-visualization {
+        display: inline-block;
+        text-align: center;
+        background-color: #ffffff;
+        border: 1px solid #dddddd;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 40px;
+      }
+
+      /* Visualization container for side-by-side */
+      .visualization-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 40px;
+      }
+
+      .visualization-container > div {
+        width: 70%; /* Set a width to keep it centered */
+        background-color: #ffffff;
+        margin: 0 auto 20px; /* Auto margin to center horizontally */
+        padding: 20px;
+        border: 1px solid #dddddd;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center; /* Center align the content inside */
+        }
+
+        #line_chart, #year_bar {
+        display: inline-block;
+        margin: 0 auto; /* Center align the graphs */
+        width: 100%; /* Adjust the width to match the container */
+        }
+
+      .visualization-container h2 {
+        font-size: 22px;
+        margin-bottom: 10px;
+        color: #3d3d3d;
+      }
+
+      /* Styling for inputs */
+      input[type="range"] {
+        margin-right: 1em;
+        margin-left: 1em;
+        appearance: none;
+        background: #aaa;
+        border-radius: 30px;
+        height: 10px;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        appearance: none;
+        background: #ffffff;
+        border-radius: 50%;
+        cursor: pointer;
+        height: 20px;
+        width: 20px;
+        border: 1px solid #333;
+      }
+    </style>
+    <title>Tourist Arrivals in Malaysia</title>
+  </head>
+  <body>
+    <!-- Main Title -->
+    <h1>Malaysias no.of tourist visitors from across the globe</h1>
+    
+    <!-- Why, What, Who section -->
+    <div class="info-section">
+      <h2>Why, What, Who?</h2>
+      <p><strong>Why?</strong> This visualization helps address the need to understand how tourist arrivals to Malaysia fluctuate across different regions. With Malaysia being a major travel destination in Asia, it is important to analyze these trends to help tourism boards, government bodies, and travel companies optimize their marketing strategies and manage resources during peak and off-peak seasons. Understanding visitor patterns is critical, especially for stakeholders in the tourism industry.</p>
+
+      <p><strong>What?</strong> The data visualized in this dashboard shows the total number of visitors from various regions (Asia, Americas, Europe, Oceania, and Africa) to Malaysia over a 5-year period (2015–2020). It breaks down the visitor numbers by quarter, allowing for a time-series view of how tourism has evolved, with special attention to the effects of global events like the COVID-19 pandemic.</p>
+
+      <p><strong>Who?</strong> This visualization is designed for an average Malaysian or Australian audience. For Malaysians, it provides insight into how different regions contribute to tourism, which plays a major role in the economy. For Australians, who are frequent visitors to Malaysia, it sheds light on how their travel behaviors compare to those from other parts of the world.</p>
+    </div>
+
+
+    <!-- Introduction Text -->
+    <p class="content-text">
+      This visualisation shows the regions from which tourists flock to malaysia on a yearly basis and the total no.of visitors from each region over the years 2015-2020.
+      <br />
+      This data is taken from data.gov.my (Malaysia Open Data Portal). It is a very simplified, global view of the regions from which malaysia sees majority of
+      its tourists.
+    </p>
+
+    <!-- Highlighted Information -->
+    <p class="content-text">
+      <span>Each region is shaded based on the number of visitors</span> (Darker shade for higher no.of visitors and lighter shade for less no.of visitors).
+      <br />
+      Mouse tooltips are provided: Hover over a region to see region name and no.of visitors for that region for a given year and quarter.
+    </p>
+
+    <!-- Visualization Section -->
+    <div class="centered-visualization">
+      <h2>Global regional view of Malaysia's visitors</h2>
+      <div id="chloropleth"></div>
+    </div>
+
+    <!-- Visualization Descriptions and Charts -->
+    <div class="visualization-container">
+      <div>
+        <h2>Analysis of Visitor Trends</h2>
+        <p>This visualization shows the variation in no of visitors from regions across a time period. Interesting to note is the drop in the no.of visitors around the second quarter of the year 2020 which can be easily understood as COVID-19 to be the cause of the drastic fall in tourism due to many flights being cancelled and the world going into a lockdown period.</p>
+      </div>
+
+      <div>
+        <h2>Line trend of visitors over the years from all regions</h2>
+        <div id="line_chart"></div>
+      </div>
+      <br>
+      <br>
+      <div>
+        <h2>Total no of visitors from 2015-2020 based on REGION</h2>
+        <p>This visualization shows the TOTAL no of visitors over the 5 year period from different regions. The ASIA region is not included in this visualization due to having a total of 123M+ visitors and thus dominating the visualization. This allows us to focus more on the other regions and immediately identify the other major contributors to tourism.</p>
+        <div id="year_bar"></div>
+      </div>
+    </div>
+  </body>
+</html>

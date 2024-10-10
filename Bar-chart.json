@@ -1,0 +1,43 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Bar chart showing total visitors by region with a log scale for the y-axis and wider layout.",
+  "width": 500,
+  "data": {
+    "values": [
+      {"REGION": "AMERICAS", "TOTAL_VISITORS": 1864263},
+      {"REGION": "OCEANIA", "TOTAL_VISITORS": 2315141},
+      {"REGION": "EUROPE", "TOTAL_VISITORS": 6040920},
+      {"REGION": "AFRICA", "TOTAL_VISITORS": 684551},
+      {"REGION": "OTHERS", "TOTAL_VISITORS": 1000000}
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "REGION",
+      "type": "nominal",
+      "axis": {"labelAngle": 0}
+    },
+    "y": {
+      "field": "TOTAL_VISITORS",
+      "type": "quantitative",
+      "title": "Total Visitors",
+      "scale": {
+        "type": "linear"
+      },
+      "axis": {"grid": true}
+    },
+    "color": {
+      "field": "REGION",
+      "type": "nominal",
+      "legend": null
+    }
+  },
+  "config": {
+    "axis": {
+      "labelFontSize": 12,
+      "titleFontSize": 14
+    },
+    "bar": {"cornerRadiusEnd": 5}
+  }
+}
