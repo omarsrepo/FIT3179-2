@@ -1,0 +1,194 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "description": "A test for coloring a country directly by ID with a region legend.",
+    "width": 900,
+    "height": 500,
+    "autosize": "none",
+  
+    "signals": [
+      {
+        "name": "type",
+        "value": "equalEarth",
+        "bind": {
+          "input": "select",
+          "options": [
+            "conicEquidistant",
+            "equalEarth",
+            "equirectangular",
+            "mercator",
+            "naturalEarth1",
+            "orthographic"
+          ]
+        }
+      },
+      { "name": "scale", "value": 150,
+        "bind": {"input": "range", "min": 50, "max": 2000, "step": 1} },
+        { "name": "rotate0", "value": 0,
+        "bind": {"input": "range", "min": -180, "max": 180, "step": 1} },
+      { "name": "rotate1", "value": 0,
+        "bind": {"input": "range", "min": -90, "max": 90, "step": 1} },
+  
+      {
+      "name": "selectedYear",
+      "value": 2015,
+      "bind": {
+        "input": "range",
+        "min": 2015,
+        "max": 2020,
+        "step": 1,
+        "name": "Year"
+      }
+    },
+    {
+      "name": "selectedQuarter",
+      "value": 1,
+      "bind": {
+        "input": "range",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "name": "Quarter"
+      }
+    },
+    { "name": "graticuleDash", "value": 0,
+      "bind": {"input": "radio", "options": [0, 3, 5, 10]} },
+    { "name": "borderWidth", "value": 1,
+      "bind": {"input": "text"} },
+    { "name": "background", "value": "#ffffff",
+      "bind": {"input": "color"} },
+    { "name": "invert", "value": false,
+      "bind": {"input": "checkbox"} }
+    ],
+  
+    "projections": [
+      {
+        "name": "projection",
+        "type": {"signal": "type"},
+        "scale": {"signal": "scale"},
+        "rotate": [
+          {"signal": "rotate0"},
+          {"signal": "rotate1"}
+        ]
+      }
+    ],
+  
+    "scales": [
+      {
+        "name": "color",
+        "type": "ordinal",
+        "domain": ["Asia - 123,771,918 Visitors", "Americas - 1,864,263 Visitors", "Oceania - 2,315,141 Visitors", "Europe - 6,040,920 Visitors", "Africa - 684,551 Visitors"],
+        "range": ["#1f77b4", "#ff7f0e", "#2ca02c", "#17becf", "#ff9896"]
+      }
+    ],
+  
+    "legends": [
+      {
+      "fill": "color",
+      "orient": "bottom-left",
+      "title": "Region",
+      "titleFontSize": 14,
+      "labelFontSize": 12,
+      "symbolType": "square",
+      "symbolSize": 150     
+      }
+    ],
+  
+    "data": [
+      {
+        "name": "world",
+        "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      {
+        "name": "graticule",
+        "transform": [
+          { "type": "graticule" }
+        ]
+      }
+    ],
+  
+    "marks": [
+      {
+        "type": "shape",
+        "from": {"data": "world"},
+        "transform": [
+          { "type": "geoshape", "projection": "projection" }
+        ],
+        "encode": {
+          "update": {
+            "fill": [
+              {
+                "test": "datum.id == 156 || datum.id == 356 || datum.id == 392 || datum.id == 458 || datum.id == 4 || datum.id == 51 || datum.id == 31 || datum.id == 48 || datum.id == 50 || datum.id == 64 || datum.id == 96 || datum.id == 116 || datum.id == 196 || datum.id == 268 || datum.id == 360 || datum.id == 364 || datum.id == 368 || datum.id == 376 || datum.id == 400 || datum.id == 398 || datum.id == 414 || datum.id == 417 || datum.id == 418 || datum.id == 422 || datum.id == 462 || datum.id == 496 || datum.id == 104 || datum.id == 524 || datum.id == 512 || datum.id == 586 || datum.id == 275 || datum.id == 608 || datum.id == 634 || datum.id == 410 || datum.id == 682 || datum.id == 702 || datum.id == 144 || datum.id == 760 || datum.id == 762 || datum.id == 764 || datum.id == 626 || datum.id == 792 || datum.id == 795 || datum.id == 784 || datum.id == 860 || datum.id == 704 || datum.id == 887 || datum.id == 408 || datum.id == 158",
+                "value": "#1f77b4"
+              },
+              {
+                "test": "datum.id == 840 || datum.id == 124 || datum.id == 484 || datum.id == 32 || datum.id == 68 || datum.id == 76 || datum.id == 152 || datum.id == 170 || datum.id == 188 || datum.id == 192 || datum.id == 218 || datum.id == 222 || datum.id == 328 || datum.id == 340 || datum.id == 388 || datum.id == 484 || datum.id == 558 || datum.id == 591 || datum.id == 600 || datum.id == 604 || datum.id == 214 || datum.id == 724 || datum.id == 780 || datum.id == 858 || datum.id == 862",
+                "value": "#ff7f0e"
+              },
+              {
+                "test": "datum.id == 36 || datum.id == 554 || datum.id == 90 || datum.id == 548 || datum.id == 258 || datum.id == 540 || datum.id == 598 || datum.id == 296 || datum.id == 876 || datum.id == 242 || datum.id == 583 || datum.id == 584 || datum.id == 585 || datum.id == 520 || datum.id == 772 || datum.id == 776 || datum.id == 798 || datum.id == 882",
+                "value": "#2ca02c"
+              },
+              {
+                "test": "datum.id == 250 || datum.id == 276 || datum.id == 8 || datum.id == 20 || datum.id == 40 || datum.id == 56 || datum.id == 100 || datum.id == 191 || datum.id == 203 || datum.id == 208 || datum.id == 233 || datum.id == 246 || datum.id == 250 || datum.id == 276 || datum.id == 292 || datum.id == 300 || datum.id == 348 || datum.id == 372 || datum.id == 380 || datum.id == 428 || datum.id == 440 || datum.id == 442 || datum.id == 470 || datum.id == 492 || datum.id == 499 || datum.id == 528 || datum.id == 578 || datum.id == 616 || datum.id == 620 || datum.id == 642 || datum.id == 643 || datum.id == 688 || datum.id == 703 || datum.id == 705 || datum.id == 724 || datum.id == 752 || datum.id == 756 || datum.id == 804 || datum.id == 826 || datum.id == 499",
+                "value": "#17becf"
+              },
+              {
+                "test": "datum.id == 710 || datum.id == 566 || datum.id == 12 || datum.id == 24 || datum.id == 72 || datum.id == 204 || datum.id == 854 || datum.id == 108 || datum.id == 120 || datum.id == 140 || datum.id == 148 || datum.id == 178 || datum.id == 180 || datum.id == 818 || datum.id == 226 || datum.id == 231 || datum.id == 232 || datum.id == 270 || datum.id == 288 || datum.id == 324 || datum.id == 384 || datum.id == 404 || datum.id == 426 || datum.id == 430 || datum.id == 450 || datum.id == 454 || datum.id == 466 || datum.id == 478 || datum.id == 508 || datum.id == 516 || datum.id == 562 || datum.id == 566 || datum.id == 646 || datum.id == 686 || datum.id == 694 || datum.id == 706 || datum.id == 729 || datum.id == 748 || datum.id == 834 || datum.id == 887 || datum.id == 894",
+                "value": "#ff9896"
+              },
+              {
+                "value": "#eeeeee"
+              }
+            ],
+            "strokeWidth": {"value": 1},
+            "stroke": {"value": "#bbb"}
+          },
+          "hover": {
+            "strokeWidth": {"signal": "+ borderWidth + 1"},
+            "stroke": {"value": "firebrick"},
+            "zindex": {"value": 1}
+          }
+        }
+      },
+  
+  
+      {
+        "type": "rect",
+        "encode": {
+          "enter": {
+            "x": {"value": 10},       
+            "y": {"value": 380},       
+            "width": {"value": 200},  
+            "height": {"value": 110}, 
+            "fill": {"value": "white"},
+            "stroke": {"value": "black"},
+            "strokeWidth": {"value": 2}
+          }
+        }
+      },
+  
+  
+      {
+        "type": "shape",
+        "from": {"data": "graticule"},
+        "encode": {
+          "update": {
+            "strokeWidth": {"value": 0.5},
+            "strokeDash": {"signal": "[+graticuleDash, +graticuleDash]"},
+            "stroke": {"signal": "invert ? '#444' : '#ddd'"},
+            "fill": {"value": null}
+          }
+        },
+  
+  
+        "transform": [
+          { "type": "geoshape", "projection": "projection" }
+        ]
+      }
+    ]
+  }
+  
